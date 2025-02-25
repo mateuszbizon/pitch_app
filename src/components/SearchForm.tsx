@@ -1,10 +1,13 @@
 import React from 'react'
 import Form from "next/form"
 import SearchFormReset from './SearchFormReset'
+import { Search } from 'lucide-react';
 
-function SearchForm() {
-    const query = "Test"
+type SearchFormProps = {
+    query?: string;
+}
 
+function SearchForm({ query }: SearchFormProps) {
   return (
     <Form action="/" scroll={false} className='search-form'>
         <input type="text" name='query' defaultValue={query} className='search-input' placeholder='Search Startups' />
@@ -15,7 +18,7 @@ function SearchForm() {
             )}
 
             <button type='submit' className='search-btn text-white'>
-                S
+                <Search className='size-5' />
             </button>
         </div>
     </Form>
