@@ -1,5 +1,5 @@
 export const STARTUPS_QUERY = `
-*[_type == "startup"] | order(_createdAt desc) {
+*[_type == "startup" && !defined($search) || category match $search || title match $search || author->name match $search ] | order(_createdAt desc) {
   _id,
   title,
   slug,
