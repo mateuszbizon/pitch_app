@@ -4,21 +4,12 @@ import Image from 'next/image';
 import Link from 'next/link';
 import React from 'react'
 import { Button } from './ui/button';
+import { Author, Startup } from '@/sanity/types';
+
+export type StartupTypeCard = Omit<Startup, "author"> & { author?: Author }
 
 type StartupCardProps = {
-    post: {
-        _createdAt: Date;
-        _id: number;
-        views: number;
-        author: {
-            _id: number;
-            name: string;
-        };
-        description: string;
-        image: string;
-        category: string;
-        title: string;
-    }
+    post: StartupTypeCard
 }
 
 function StartupCard({ post }: StartupCardProps) {
@@ -37,14 +28,14 @@ function StartupCard({ post }: StartupCardProps) {
 
         <div className='flex-between mt-5 gap-5'>
             <div className='flex-1'>
-                <Link href={`/user/${post.author._id}`}>
-                    <p className='text-16-medium line-clamp-1'>{post.author.name}</p>
+                <Link href={`/user/${post.author?._id}`}>
+                    <p className='text-16-medium line-clamp-1'>{post.author?.name}</p>
                 </Link>
                 <Link href={`/startup/${post._id}`}>
                     <h3 className='text-26-semibold'>{post.title}</h3>
                 </Link>
             </div>
-            <Link href={`/user/${post.author._id}`}>
+            <Link href={`/user/${post.author?._id}`}>
                 <Image src={"https://placehold.co/48x48"} alt='placeholder' width={48} height={48} className='rounded-full' />
             </Link>
         </div>
@@ -55,7 +46,7 @@ function StartupCard({ post }: StartupCardProps) {
         </Link>
 
         <div className='flex-between mt-5 gap-3'>
-            <Link href={`/?query=${post.category.toLowerCase()}`}>
+            <Link href={`/?query=${post.category?.toLowerCase()}`}>
                 <p className='text-16-medium'>{post.category}</p>
             </Link>
             <Button className='startup-card_btn' asChild>

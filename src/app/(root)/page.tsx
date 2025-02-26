@@ -1,20 +1,23 @@
 import SearchForm from "@/components/SearchForm";
-import StartupCard from "@/components/StartupCard";
+import StartupCard, { StartupTypeCard } from "@/components/StartupCard";
+import { client } from "@/sanity/lib/client";
+import { STARTUPS_QUERY } from "@/sanity/lib/queries";
 
 export default async function Home({ searchParams }: { searchParams: Promise<{ query?: string }> }) {
     const query = (await searchParams).query
-    const posts = [
-        {
-            _createdAt: new Date(),
-            _id: 1,
-            views: 55,
-            author: { _id: 1, name: "Mateusz" },
-            description: "This is a description.",
-            image: "https://images.unsplash.com/photo-1739609579483-00b49437cc45?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxmZWF0dXJlZC1waG90b3MtZmVlZHwyfHx8ZW58MHx8fHx8",
-            category: "Robots",
-            title: "We are Robots"
-        }
-    ]
+    const posts = await client.fetch(STARTUPS_QUERY)
+    // const posts = [
+    //     {
+    //         _createdAt: new Date(),
+    //         _id: 1,
+    //         views: 55,
+    //         author: { _id: 1, name: "Mateusz" },
+    //         description: "This is a description.",
+    //         image: "https://images.unsplash.com/photo-1739609579483-00b49437cc45?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxmZWF0dXJlZC1waG90b3MtZmVlZHwyfHx8ZW58MHx8fHx8",
+    //         category: "Robots",
+    //         title: "We are Robots"
+    //     }
+    // ]
 
   return (
     <>
@@ -35,7 +38,7 @@ export default async function Home({ searchParams }: { searchParams: Promise<{ q
 
             <ul className="mt-7 card_grid">
                 {posts.length > 0 ? (
-                    posts.map((post) => (
+                    posts.map((post: StartupTypeCard) => (
                         <StartupCard key={post._id} post={post} />
                     ))
                 ) : (
